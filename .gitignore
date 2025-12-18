@@ -1,0 +1,53 @@
+# =====================
+# Terraform
+# =====================
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+terraform.tfvars
+*.tfvars
+.override.tf
+.override.tf.json
+*_override.tf
+*_override.tf.json
+
+# =====================
+# Terraform lock files (keep)
+# =====================
+!.terraform.lock.hcl
+
+# =====================
+# Kubernetes
+# =====================
+.kube/
+kubeconfig
+kubeconfig.*
+
+# =====================
+# Jenkins
+# =====================
+jenkins_home/
+secrets/
+*.key
+*.pem
+
+# =====================
+# SSH
+# =====================
+.ssh/
+id_rsa
+id_rsa.pub
+
+# =====================
+# OS / Editor
+# =====================
+.DS_Store
+.vscode/
+.idea/
+
+# =====================
+# Logs
+# =====================
+*.log

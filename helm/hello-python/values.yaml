@@ -1,0 +1,44 @@
+replicaCount: 1
+
+image:
+  repository: "248828787576.dkr.ecr.us-east-1.amazonaws.com/hello-python"
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+ingress:
+  enabled: true
+  className: alb
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+  tls: []
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 12 # 4 nodes * 3 pods per node
+  targetCPUUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 50
