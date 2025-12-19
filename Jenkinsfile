@@ -18,7 +18,7 @@ pipeline {
     stage("Build Image") {
       steps {
         sh """
-          docker build -t $ECR_REPO:$IMAGE_TAG app/hello-python
+          docker build -t ${ECR_REPO}:${IMAGE_TAG} app/hello-python
         """
       }
     }
@@ -26,9 +26,9 @@ pipeline {
     stage("Login to ECR") {
       steps {
         sh """
-          aws ecr get-login-password --region $AWS_REGION \
+          aws ecr get-login-password --region ${AWS_REGION} \
           | docker login --username AWS --password-stdin \
-            248828787576.dkr.ecr.$AWS_REGION.amazonaws.com
+            248828787576.dkr.ecr.${AWS_REGION}.amazonaws.com
         """
       }
     }
@@ -36,11 +36,11 @@ pipeline {
     stage("Push Image") {
       steps {
         sh """
-          docker tag $ECR_REPO:$IMAGE_TAG \
-            248828787576.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+          docker tag ${ECR_REPO}:${IMAGE_TAG} \
+            248828787576.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}
 
           docker push \
-            248828787576.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+            248828787576.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}
         """
       }
     }
@@ -48,11 +48,11 @@ pipeline {
     stage("Deploy to EKS") {
       steps {
         sh """
-          aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER
+          aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER}
 
           helm upgrade hello-python helm/hello-python \
             --namespace hello-python \
-            --set image.tag=$IMAGE_TAG
+            --set image.tag=${IMAGE_TAG}
         """
       }
     }
