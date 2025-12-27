@@ -10,12 +10,15 @@ spec:
     repoURL: https://github.com/luchenzo7/EKS_Deployment.git
     targetRevision: gitops
     path: helm/hello-python
+    helm:
+      valueFiles:
+        - values-prod.yaml
 
   destination:
     server: https://kubernetes.default.svc
     namespace: hello-python
 
+  # PROD GATING (recommended): leave auto-sync OFF
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
