@@ -34,15 +34,17 @@ pipeline {
           if (params.ENVIRONMENT == 'prod') {
             env.CLUSTER      = "tc2-prod-eks"
             env.HELM_VALUES  = "helm/hello-python/values-prod.yaml"
-            // Keep same namespace if you already use it:
-            env.NAMESPACE    = "hello-python"
-            // Optional safer alternative:
-            // env.NAMESPACE = "hello-python-prod"
-            env.CREATE_NS_FLAG = ""   // no --create-namespace in prod
+            // Jenkins-managed prod (isolated from Argo)
+            env.NAMESPACE      = "hello-python-jenkins-prod"
+            env.RELEASE_NAME   = "hello-python-jenkins-prod"
+
+            env.CREATE_NS_FLAG = "--create-namespace"
           } else {
             env.CLUSTER      = "tc2-dev-eks"
             env.HELM_VALUES  = "helm/hello-python/values.yaml"
-            env.NAMESPACE    = "hello-python"
+            // Jenkins-managed dev (isolated from Argo)
+            env.NAMESPACE    = "hello-python-jenkins"
+            env.RELEASE_NAME = "hello-python-jenkins"
             env.CREATE_NS_FLAG = "--create-namespace"
           }
         }
@@ -108,14 +110,14 @@ pipeline {
 
           aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER}
 
-          helm upgrade --install hello-python helm/hello-python \
+          helm upgrade --install ${RELEASE_NAME} helm/hello-python \
             --namespace ${NAMESPACE} \
             ${CREATE_NS_FLAG} \
             -f ${HELM_VALUES} \
             --set image.repository=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO} \
             --set image.tag=${IMAGE_TAG}
 
-          kubectl -n ${NAMESPACE} rollout status deploy/hello-python-hello-python --timeout=180s
+          kubectl -n ${NAMESPACE} rollout status deploy/${RELEASE_NAME}-hello-python --timeout=180s
           kubectl -n ${NAMESPACE} get pods -o wide
           kubectl -n ${NAMESPACE} get svc
           kubectl -n ${NAMESPACE} get ingress
