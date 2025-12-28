@@ -101,6 +101,11 @@ pipeline {
         sh """
           set -e
 
+          # Ensure kubectl is on PATH inside the Jenkins container
+          export PATH=\$PATH:/var/jenkins_home/bin
+          which kubectl
+          kubectl version --client
+
           aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER}
 
           helm upgrade --install hello-python helm/hello-python \
@@ -110,9 +115,10 @@ pipeline {
             --set image.repository=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO} \
             --set image.tag=${IMAGE_TAG}
 
-          kubectl -n ${NAMESPACE} rollout status deploy/hello-python --timeout=180s || true
-          kubectl -n ${NAMESPACE} get pods -o wide || true
-          kubectl -n ${NAMESPACE} get svc || true
+          kubectl -n ${NAMESPACE} rollout status deploy/hello-python --timeout=180s
+          kubectl -n ${NAMESPACE} get pods -o wide
+          kubectl -n ${NAMESPACE} get svc
+          kubectl -n ${NAMESPACE} get ingress
         """
       }
     }
