@@ -10,6 +10,9 @@ spec:
     repoURL: https://github.com/luchenzo7/EKS_Deployment.git
     targetRevision: gitops
     path: helm/hello-python
+    helm:
+      valueFiles:
+        - values.yaml
 
   destination:
     server: https://kubernetes.default.svc
