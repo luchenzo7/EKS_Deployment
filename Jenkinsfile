@@ -115,7 +115,7 @@ pipeline {
             --set image.repository=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO} \
             --set image.tag=${IMAGE_TAG}
 
-          kubectl -n ${NAMESPACE} rollout status deploy/hello-python --timeout=180s
+          kubectl -n ${NAMESPACE} rollout status deploy/hello-python-hello-python --timeout=180s
           kubectl -n ${NAMESPACE} get pods -o wide
           kubectl -n ${NAMESPACE} get svc
           kubectl -n ${NAMESPACE} get ingress
