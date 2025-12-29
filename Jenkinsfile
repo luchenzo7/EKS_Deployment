@@ -115,9 +115,9 @@ pipeline {
             ${CREATE_NS_FLAG} \
             -f ${HELM_VALUES} \
             --set image.repository=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO} \
-            --set image.tag=${IMAGE_TAG}
+            --set image.tag=${IMAGE_TAG} \
             --set ingress.hosts[0].paths[0].path=/jenkins
-            
+
           kubectl -n ${NAMESPACE} rollout status deploy/${RELEASE_NAME}-hello-python --timeout=180s
           kubectl -n ${NAMESPACE} get pods -o wide
           kubectl -n ${NAMESPACE} get svc
