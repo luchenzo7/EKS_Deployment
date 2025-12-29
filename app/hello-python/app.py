@@ -1,10 +1,11 @@
 from flask import Flask
-
 app = Flask(__name__)
 
 @app.route("/")
+@app.route("/jenkins")
 def home():
-    return "Hello World from Flask running on EKS via Helm & Jenkins! Test 1!!!"
+    return "Hello World from Flask running on EKS via Helm & Jenkins!! JENKINS PATH!!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
