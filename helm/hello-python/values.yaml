@@ -12,6 +12,8 @@ service:
   targetPort: 5000
 
 ingress:
+  groupName: tc2-dev-shared
+  groupOrder: "10"
   enabled: true
   className: alb
   hosts:
