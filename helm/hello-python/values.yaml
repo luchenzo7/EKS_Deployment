@@ -12,13 +12,13 @@ service:
 
 ingress:
   groupName: tc2-dev-shared
-  groupOrder: "10"
+  groupOrder: "20"
   enabled: true
   className: alb
   hosts:
     - host: ""
       paths:
-        - path: /
+        - path: /jenkins
           pathType: Prefix
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
