@@ -108,6 +108,11 @@ pipeline {
           which kubectl
           kubectl version --client
 
+
+          aws sts get-caller-identity
+          aws eks describe-cluster --region ${AWS_REGION} --name ${CLUSTER} | head
+          kubectl config get-contexts
+
           aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER}
 
           helm upgrade --install ${RELEASE_NAME} helm/hello-python \
