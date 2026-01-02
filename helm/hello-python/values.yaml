@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: "248828787576.dkr.ecr.us-east-1.amazonaws.com/hello-python"
-  tag: "ca2822e"
+  tag: "1e26ebc"
   pullPolicy: IfNotPresent
 
 service:
