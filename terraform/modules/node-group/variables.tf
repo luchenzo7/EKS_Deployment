@@ -2,12 +2,6 @@ variable "cluster_name" {
   description = "EKS cluster name to attach the node group to"
   type        = string
 }
-
-variable "node_group_name" {
-  description = "Name of the node group"
-  type        = string
-}
-
 variable "node_role_arn" {
   description = "IAM role ARN for the worker nodes"
   type        = string
@@ -46,5 +40,8 @@ variable "tags" {
   description = "Tags to apply to the node group"
   type        = map(string)
   default     = {}
+}
+variable "node_group_name_prefix" {
+  type = string
 }
 

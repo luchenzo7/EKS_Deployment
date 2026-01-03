@@ -68,15 +68,15 @@ module "eks" {
 module "node_group" {
   source = "../../modules/node-group"
 
-  cluster_name    = module.eks.cluster_name
-  node_group_name = "${var.cluster_name}-ng"
-  node_role_arn   = aws_iam_role.node_group_role.arn
-  subnet_ids      = module.vpc.private_subnet_ids
+  cluster_name           = module.eks.cluster_name
+  node_group_name_prefix = "${var.cluster_name}-ng-"
+  node_role_arn          = aws_iam_role.node_group_role.arn
+  subnet_ids             = module.vpc.private_subnet_ids
   # we could rely on defaults, but wiring explicitly is clearer:
-  desired_size   = 1
+  desired_size   = 3
   min_size       = 1
   max_size       = 4
-  instance_types = ["t3.small"]
+  instance_types = ["t3.medium"]
   tags           = var.tags
 }
 
