@@ -21,7 +21,7 @@ def home():
     start = time.time()
     status_code = 200
     try:
-        return "Hello World from Flask running on EKS via Helm. PROD via ArgoCD!"
+        return "Hello World from Flask running on EKS via Helm and Argo CD. Setting up Prometheus and Grafana monitoring!"
     finally:
         REQUEST_COUNT.labels(request.method, "/", str(status_code)).inc()
         REQUEST_LATENCY.labels("/").observe(time.time() - start)
