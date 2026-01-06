@@ -1,0 +1,39 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: hello-python-argo
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - hello-python
+  selector:
+    matchLabels:
+      app: hello-python
+      release: hello-python
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: hello-python-jenkins
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - hello-python-jenkins
+  selector:
+    matchLabels:
+      app: hello-python
+      release: hello-python-jenkins
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
