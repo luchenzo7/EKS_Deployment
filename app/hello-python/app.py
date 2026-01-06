@@ -22,7 +22,7 @@ def home():
     start = time.time()
     status_code = 200
     try:
-        return "Hello World from Flask running on EKS via Helm & Jenkins! Setting up Prometheus and Grafana monitoring.", status_code
+        return "Hello World from Flask running on Amazon EKS — automatically deployed via Helm and Jenkins CI/CD.", status_code
     finally:
         endpoint = request.path
         REQUEST_COUNT.labels(request.method, endpoint, str(status_code)).inc()
