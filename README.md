@@ -1,4 +1,4 @@
-# Tech Challenge 2 — AWS EKS DevOps Pipeline
+# AWS EKS Deployment
 
 ## Overview
 
